@@ -1,0 +1,23 @@
+.DS_Store
+
+# dependencies
+node_modules/
+
+# environment files
+.env
+.env.*
+!.env.example
+
+# caches / temp
+.cache/
+.tmp/
+tmp/
+temp/
+.npm-cache/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
