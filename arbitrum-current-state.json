@@ -1,0 +1,21 @@
+{
+  "chain": "arbitrum",
+  "config": {
+    "chain": "arbitrum",
+    "rpcUrl": "https://arb1.arbitrum.io/rpc",
+    "usdcAddress": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+    "usdcDecimals": 6
+  },
+  "results": [
+    {
+      "address": "0x42138576848e839827585a3539305774d36b9602",
+      "code": "0xef0100000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "isDelegatedToTarget": true,
+      "delegatedTarget": "0x000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "ethBalanceEth": "0.000000133098412",
+      "ethBalanceWei": "0x1efd4897e0",
+      "usdcBalance": "0.004",
+      "usdcBalanceRaw": "0x0000000000000000000000000000000000000000000000000000000000000fa0"
+    }
+  ]
+}

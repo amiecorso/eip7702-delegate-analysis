@@ -1,0 +1,80 @@
+# Delegated-to-target addresses bucketed by AddOwner (per chain)
+# Source directory: /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+
+## base
+with_addowner (9):
+0x006b23329e84bdf9a841559d53a39aefac297c00
+0x00bc973d4a29314eddba56b2d9f9cf777c442700
+0x079d8cab4da9b5817612e98b8f6fc72cb1cb25a6
+0x1431d0462bc38ed0775d5513c87f44f268f73dee
+0x1cd4861b3370ca47ae6603ac144f540e12dff999
+0x420ae9b2f9a63fcb809c5fd0f9bf01b137792169
+0x6911652a8f677af17d222b17d44112293747c036
+0x77130abfcc6e99aeb8c72fa4a1bf1c71c8821fb5
+0xc7bec02f14acfa155074f319248a437fc0a3fb97
+
+without_addowner (13):
+0x000c6e3201e83805413f79b9f4c2cadc20670000
+0x07c8946f7bc4a8ec67516781fd15b9e5c73cf101
+0x0d33235938979762b2afb330ac8835d8dc98c9e9
+0x1668fcd6100a6cc89469306df6c1f7294a16f9ee
+0x1a6e58c47eba7a26da3b3d99ebd4f934ae20a0c6
+0x42138576848e839827585a3539305774d36b9602
+0x69420b3b824158e65f6ffa394466364de21ca0e1
+0x76be2a470423bdc49cdf51a73a072d54a4bb5bb0
+0x8b733d5b999b9ecf38360a56a32e804d2204c872
+0x9d999edfd4d0b9780e455bed3d1ac251364c3d13
+0xa926a8b5547873bc2d433bc9f9c22e1b530efa79
+0xcaba56f17e11020ea94ff4b22d403f24792f9ead
+0xf000715565148ceabe2a5d29d66f8bedc21bf10e
+
+## arbitrum
+with_addowner (2):
+0x006b23329e84bdf9a841559d53a39aefac297c00
+0x77130abfcc6e99aeb8c72fa4a1bf1c71c8821fb5
+
+without_addowner (1):
+0x42138576848e839827585a3539305774d36b9602
+
+## avalanche
+with_addowner (0):
+(none)
+
+without_addowner (0):
+(none)
+
+## bsc
+with_addowner (0):
+(none)
+
+without_addowner (0):
+(none)
+
+## eth
+with_addowner (0):
+(none)
+
+without_addowner (2):
+0x1312055d8da9906ce7e8de710fb278e7384c6b36
+0x1ed8196b47e6f3feded5848e46304de980e6bf84
+
+## optimism
+with_addowner (1):
+0x8a95a0e55d591b00cf18253148647daad25fa6a8
+
+without_addowner (0):
+(none)
+
+## polygon
+with_addowner (0):
+(none)
+
+without_addowner (0):
+(none)
+
+## zora
+with_addowner (0):
+(none)
+
+without_addowner (0):
+(none)
