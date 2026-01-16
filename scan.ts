@@ -51,13 +51,25 @@ function getHypersyncUrl() {
 }
 
 const FROM_BLOCK = 13514406;
+const rawOutputPrefix = process.env.OUTPUT_PREFIX ?? process.env.CHAIN ?? "base";
 const outputPrefix =
-  process.env.OUTPUT_PREFIX ?? process.env.CHAIN ?? "base";
+  rawOutputPrefix === "base" &&
+  process.env.OUTPUT_PREFIX === undefined &&
+  process.env.CHAIN === undefined
+    ? ""
+    : rawOutputPrefix;
 
-const OUTPUT_FILE = `${outputPrefix}-from-addresses.txt`;
-const OUTPUT_ALL_DELEGATED_FILE = `${outputPrefix}-delegated-addresses.txt`;
-const OUTPUT_WITHOUT_ADDOWNER_FILE = `${outputPrefix}-delegated-without-addowner.txt`;
-const OUTPUT_WITH_ADDOWNER_FILE = `${outputPrefix}-delegated-with-addowner.txt`;
+function withPrefix(prefix: string, name: string) {
+  return prefix ? `${prefix}-${name}` : name;
+}
+
+const OUTPUT_FILE = withPrefix(outputPrefix, "from-addresses.txt");
+const OUTPUT_ALL_DELEGATED_FILE = withPrefix(outputPrefix, "delegated-addresses.txt");
+const OUTPUT_WITHOUT_ADDOWNER_FILE = withPrefix(
+  outputPrefix,
+  "delegated-without-addowner.txt",
+);
+const OUTPUT_WITH_ADDOWNER_FILE = withPrefix(outputPrefix, "delegated-with-addowner.txt");
 
 const TXN_TYPE = process.env.TXN_TYPE ? Number(process.env.TXN_TYPE) : 4;
 const DEFAULT_TARGET_ADDRESSES =
