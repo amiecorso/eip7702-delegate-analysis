@@ -1,0 +1,41 @@
+{
+  "chain": "arbitrum",
+  "config": {
+    "chain": "arbitrum",
+    "rpcUrl": "https://arb1.arbitrum.io/rpc",
+    "usdcAddress": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+    "usdcDecimals": 6
+  },
+  "results": [
+    {
+      "address": "0x006b23329e84bdf9a841559d53a39aefac297c00",
+      "code": "0xef0100000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "isDelegatedToTarget": true,
+      "delegatedTarget": "0x000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "ethBalanceEth": "0.000087091732145",
+      "ethBalanceWei": "0x4f359fc1e368",
+      "usdcBalance": "0",
+      "usdcBalanceRaw": "0x0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "address": "0x42138576848e839827585a3539305774d36b9602",
+      "code": "0xef0100000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "isDelegatedToTarget": true,
+      "delegatedTarget": "0x000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "ethBalanceEth": "0.000000133098412",
+      "ethBalanceWei": "0x1efd4897e0",
+      "usdcBalance": "0.004",
+      "usdcBalanceRaw": "0x0000000000000000000000000000000000000000000000000000000000000fa0"
+    },
+    {
+      "address": "0x77130abfcc6e99aeb8c72fa4a1bf1c71c8821fb5",
+      "code": "0xef0100000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "isDelegatedToTarget": true,
+      "delegatedTarget": "0x000100abaad02f1cfc8bbe32bd5a564817339e72",
+      "ethBalanceEth": "0.039159509190022425",
+      "ethBalanceWei": "0x8b1f5dbad99519",
+      "usdcBalance": "0.43374",
+      "usdcBalanceRaw": "0x0000000000000000000000000000000000000000000000000000000000069e4c"
+    }
+  ]
+}
