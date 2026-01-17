@@ -1,3 +1,20 @@
+# Large scan artifacts / outputs (do not commit)
+results/
+
+# EIP-7702 type-4 authority scan artifacts (can be very large)
+*-type4-authority-addresses.txt
+*-type4-authority-shards/
+*-type4-scan-state.json
+
+# Market share outputs (regeneratable)
+*-delegate-market-share.json
+*-delegate-market-share.csv
+*-delegate-market-share.checkpoint.json
+*-delegate-market-share-report.html
+*-delegate-market-share-by-wallet.json
+*-delegate-market-share-by-wallet.csv
+*-delegate-market-share-by-wallet-report.html
+
 .DS_Store
 
 # dependencies

@@ -1,0 +1,76 @@
+{
+  "source": {
+    "name": "Wintermute research (via Dune query)",
+    "dune_query_url": "https://dune.com/queries/5145294",
+    "notes": "This is a best-effort mapping of delegate addresses to wallet/provider labels. Treat as advisory; labels may be incomplete or incorrect."
+  },
+  "labels": [
+    { "address": "0xcda3577ca7ef65f6b7201e9bd80375f5628d15f7", "name": "WhiteBIT", "category": "Service" },
+    { "address": "0x79cf9e04ad9aeb210768c22c228673aed6cd24c4", "name": "WhiteBIT", "category": "Service" },
+    { "address": "0x4b3a543dc60a09974007d6937cd952e3a0188929", "name": "WhiteBIT", "category": "Service" },
+
+    { "address": "0x0000000000000000000000000000000000000000", "name": "Revoked Delegations", "category": "Revoked Delegations" },
+
+    { "address": "0x80296ff8d1ed46f8e3c7992664d13b833504c2bb", "name": "OKX Wallet", "category": "Retail Wallets" },
+    { "address": "0x63c0c19a282a1b52b07dd5a65b58948a07dae32b", "name": "Metamask", "category": "Retail Wallets" },
+    { "address": "0x5a7fc11397e9a8ad41bf10bf13f22b0a63f96f6d", "name": "Ambire", "category": "Retail Wallets" },
+    { "address": "0x4428a93b478fa76a5bd9c7641f54ec6373855433", "name": "Bitget", "category": "Retail Wallets" },
+    { "address": "0xa845c74344fc9405b1fcf712f04668979573c1bf", "name": "Bitget", "category": "Retail Wallets" },
+    { "address": "0x0c338ca25585035142a9a0a1eeeba267256f281f", "name": "Uniswap", "category": "Retail Wallets" },
+    { "address": "0x458f5a9f47a01bea5d7a32662660559d9ed3312c", "name": "Uniswap", "category": "Retail Wallets" },
+    { "address": "0x000000009b1d0af20d8c6d0a44e162d11f9b8f00", "name": "Uniswap", "category": "Retail Wallets" },
+    { "address": "0x000000004f43c49e93c970e84001853a70923b03", "name": "Biconomy", "category": "Retail Wallets" },
+    { "address": "0x00000000383e8cbe298514674ea60ee1d1de50ac", "name": "Biconomy", "category": "Retail Wallets" },
+    { "address": "0x69007702764179f14f51cdce752f4f775d74e139", "name": "Alchemy", "category": "Retail Wallets" },
+    { "address": "0xbac7e770af15d130cd72838ff386f14fbf3e9a3d", "name": "Thirdweb", "category": "Retail Wallets" },
+    { "address": "0xd6999651fc0964b9c6b444307a0ab20534a66560", "name": "Thirdweb", "category": "Retail Wallets" },
+    { "address": "0x173217d7f8c26dc3c01e37e1c04813cc7cc9fec2", "name": "Thirdweb", "category": "Retail Wallets" },
+    { "address": "0x4670d851672cb6e3ab4faea0a18dc08edea01d5e", "name": "Thirdweb", "category": "Retail Wallets" },
+    { "address": "0xd6cedde84be40893d153be9d467cd6ad37875b28", "name": "ZeroDev", "category": "Retail Wallets" },
+    { "address": "0xe6cae83bde06e4c305530e199d7217f42808555b", "name": "Simple7702Account (Pimlico, ...)", "category": "Retail Wallets" },
+    { "address": "0x664ab8c20b629422f5398e58ff8989e68b26a4e6", "name": "Porto", "category": "Retail Wallets" },
+    { "address": "0x8c0466a6c046395c8999227b288883cf7dc9f5de", "name": "Porto", "category": "Retail Wallets" },
+    { "address": "0xb292da8879c26ecd558bbea87f581cdd608ffc3c", "name": "Porto", "category": "Retail Wallets" },
+    { "address": "0x5874f358359ee96d2b3520409018f1a6f59a2cdc", "name": "Porto", "category": "Retail Wallets" },
+    { "address": "0x23e5f9c457a69ce776d20a8fe812a6701d66fce8", "name": "Otim", "category": "Retail Wallets" },
+    { "address": "0xb15bed8fc30d3e82672bf7cd75417b414983934b", "name": "SafePal", "category": "Retail Wallets" },
+    { "address": "0x5af42746a8af42d8a4708df238c53f1f71abf0e0", "name": "Gelato", "category": "Retail Wallets" },
+    { "address": "0x7702cb554e6bfb442cb743a7df23154544a7176c", "name": "Coinbase Wallet", "category": "Retail Wallets" },
+    { "address": "0xd2e28229f6f2c235e57de2ebc727025a1d0530fb", "name": "Trust Wallet", "category": "Retail Wallets" },
+    { "address": "0xcc0c946eecf01a4bc76bc333ea74ceb04756f17b", "name": "TokenPocket", "category": "Retail Wallets" },
+
+    { "address": "0x0000fb7702036ff9f76044a501ac1aa74cbab16b", "name": "Fireblocks", "category": "Custody" },
+    { "address": "0x7785a22facd31db653ba4928f1d5b81d093f0b2f", "name": "Cordial", "category": "Custody" },
+    { "address": "0xcea43594f38316f0e01c161d8dabde0a07a1f512", "name": "Dfns", "category": "Custody" },
+
+    { "address": "0x411d38d27f6f2c7f3b70ff29dada64cbd7bfa9b2", "name": null, "category": "MEV" },
+    { "address": "0x4884d28f048e66a537762334937e01a044cbdface", "name": null, "category": "MEV" },
+    { "address": "0x73a10a2b222fe41997b58059da2163bfe663a682", "name": null, "category": "MEV" },
+
+    { "address": "0xf8e498921fe74137b96fd102f06d5fd41362a22c", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xe6ad7cdfc661960c2eadfa9ee1fc7e868171c75f", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xc923107c430553f7bb00eca358ef04f80508ebf4", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0x87d83aaa276441ae87d58d5a190b6e5e92d642e8", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xf9690323cca6344fe978736adefb4f74dc0780b0", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xf42f87c997d1aac6b18840c131ec93b94f39ca1e", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xce54f0c7bda96d22d595f479e9316ec147c84cec", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xc547968a13792ae18b40e41a14d2949eabf8f551", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xc690f8ace1d80719b782e4dfe4dc13ca6541eee6", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xf4ab112642ef9a528c12e7652479c2f45c444bee", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0x2fa15ae753b4bf62b44b59aa295d67a9f8e5947e", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0x1ba4c2e7c5d542bde3358aa68bd564b0af0d8128", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0x95d0cd6e915ffaaae802fc2b2fad3a7eeb869fc8", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xaee97400b67ea669dae64e9f78f36ea31617b061", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0x34e4cb31703f6401824f690d4aaafee469e7c3f3", "name": "0x9999 Arber", "category": "MEV" },
+    { "address": "0xb3c7950239ba32759c0ee6b7462592a8fb6bf309", "name": "0x9999 Arber", "category": "MEV" },
+
+    { "address": "0x5d6ebddd42f3668073b2707b763a201872d6eca0", "name": "BatchExecutor", "category": null },
+    { "address": "0xf6ae00d4c8605133d756858d8f2d8fc51214c1f3", "name": "TokenSender", "category": null },
+    { "address": "0x4a70c8e1a4319ab5ae982e96eccc1abb8cffa7ef", "name": "TokenSender", "category": null },
+    { "address": "0xca11bde05977b3631167028862be2a173976ca11", "name": "Multicall3", "category": null },
+    { "address": "0x00000000bebedb7c30ee418158e26e31a5a8f3e2", "name": "BasicEOABatchExecutor", "category": null },
+    { "address": "0x775c8d470cc8d4530b8f233322480649f4fab758", "name": "BatchCallAndSponsor", "category": null },
+    { "address": "0x02e34e8c40a2a80ab96453455c1c6452317abfe6", "name": "EIP7702ArbitrageExecutorV2", "category": null }
+  ]
+}
+

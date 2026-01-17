@@ -1,10 +1,11 @@
 import {
   HypersyncClient,
   type Query,
-  BlockField,
-  LogField,
-  TransactionField,
+  type BlockField,
+  type LogField,
+  type TransactionField,
 } from "@envio-dev/hypersync-client";
+import { recoverAuthorityFromAuthorization, type HypersyncAuthorization } from "./eip7702";
 
 function loadDotEnvIfPresent(envPath = ".env") {
   try {
@@ -132,7 +133,7 @@ async function main() {
       fromBlock,
       transactions: [
         {
-          kind: [TXN_TYPE],
+          type: [TXN_TYPE],
           authorizationList: [
             {
               address: targetAddresses,
@@ -141,28 +142,28 @@ async function main() {
         },
       ],
       fieldSelection: {
-        block: [BlockField.Number, BlockField.Timestamp, BlockField.Hash],
+        block: ["Number", "Timestamp", "Hash"] satisfies BlockField[],
         log: [
-          LogField.BlockNumber,
-          LogField.LogIndex,
-          LogField.TransactionIndex,
-          LogField.TransactionHash,
-          LogField.Data,
-          LogField.Address,
-          LogField.Topic0,
-          LogField.Topic1,
-          LogField.Topic2,
-          LogField.Topic3,
+          "BlockNumber",
+          "LogIndex",
+          "TransactionIndex",
+          "TransactionHash",
+          "Data",
+          "Address",
+          "Topic0",
+          "Topic1",
+          "Topic2",
+          "Topic3",
         ],
         transaction: [
-          TransactionField.BlockNumber,
-          TransactionField.TransactionIndex,
-          TransactionField.Hash,
-          TransactionField.From,
-          TransactionField.To,
-          TransactionField.Value,
-          TransactionField.Input,
-          TransactionField.AuthorizationList,
+          "BlockNumber",
+          "TransactionIndex",
+          "Hash",
+          "From",
+          "To",
+          "Value",
+          "Input",
+          "AuthorizationList",
         ],
       },
     };
@@ -186,7 +187,20 @@ async function main() {
       for (const txn of res.data.transactions) {
         totalTransactions++;
 
-        if (txn.from) {
+        // For EIP-7702 type-4, the delegated EOA is the authorization signer (authority),
+        // which may differ from tx.from for sponsored transactions.
+        const authList = (txn as any).authorizationList as any[] | undefined;
+        if (authList && authList.length > 0) {
+          for (const auth of authList) {
+            try {
+              const authority = recoverAuthorityFromAuthorization(auth as HypersyncAuthorization);
+              fromAddresses.add(authority);
+            } catch {
+              // Fall back to tx.from if signature recovery fails for any reason.
+              if (txn.from) fromAddresses.add(txn.from.toLowerCase());
+            }
+          }
+        } else if (txn.from) {
           fromAddresses.add(txn.from.toLowerCase());
         }
 

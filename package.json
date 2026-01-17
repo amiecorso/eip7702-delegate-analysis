@@ -3,10 +3,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "scan": "bun run scan.ts"
+    "scan": "bun run scan.ts",
+    "scan:type4": "bun run scan-type4-authorities.ts",
+    "scan:type4:node": "node scan-type4-authorities.mjs",
+    "market-share": "bun run market-share.ts",
+    "aggregate:labels": "bun run aggregate-labels.ts",
+    "report": "bun run render-report.ts"
   },
   "dependencies": {
-    "@envio-dev/hypersync-client": "^0.7.0"
+    "@envio-dev/hypersync-client": "^0.7.0",
+    "ethers": "^6.15.0"
   }
 }
 
