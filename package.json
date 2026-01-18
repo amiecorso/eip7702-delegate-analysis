@@ -8,6 +8,7 @@
     "scan:type4:node": "node scan-type4-authorities.mjs",
     "market-share": "bun run market-share.ts",
     "aggregate:labels": "bun run aggregate-labels.ts",
+    "filter:labeled": "bun run filter-labeled-delegates.ts",
     "report": "bun run render-report.ts"
   },
   "dependencies": {

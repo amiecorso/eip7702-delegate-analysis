@@ -246,6 +246,49 @@ This produces:
 
 You can then point `INPUT_JSON` at the aggregated JSON and re-run `npm run report` to render charts for the aggregated view.
 
+## Labeled-only view (drop unlabeled delegates from the denominator)
+
+If you want to exclude “unknown/unlabeled” delegate addresses entirely (so percentages are computed only over delegates that appear in our labels file), run:
+
+```bash
+export INPUT_JSON="results/<timestamp>/market-share/base-delegate-market-share.json"
+export LABELS_JSON="labels/wintermute-custom-labels.json"
+export OUTPUT_DIR="results/<timestamp>/market-share"
+npm run filter:labeled
+```
+
+This produces:
+- `base-delegate-market-share-labeled-only.json`
+- `base-delegate-market-share-labeled-only.csv`
+
+You can render the labeled-only JSON directly:
+
+```bash
+export INPUT_JSON="results/<timestamp>/market-share/base-delegate-market-share-labeled-only.json"
+export OUTPUT_DIR="results/<timestamp>/market-share"
+export OUTPUT_FILE="base-delegate-market-share-labeled-only-report.html"
+npm run report
+```
+
+If you want the report to show **wallet/provider names** (e.g. “Coinbase Wallet”, “Uniswap”) instead of raw delegate addresses, aggregate the labeled-only JSON first:
+
+```bash
+export INPUT_JSON="results/<timestamp>/market-share/base-delegate-market-share-labeled-only.json"
+export LABELS_JSON="labels/wintermute-custom-labels.json"
+export OUTPUT_DIR="results/<timestamp>/market-share"
+export OUTPUT_BASENAME="base-delegate-market-share-labeled-only-by-wallet"
+npm run aggregate:labels
+```
+
+Then render:
+
+```bash
+export INPUT_JSON="results/<timestamp>/market-share/base-delegate-market-share-labeled-only-by-wallet.json"
+export OUTPUT_DIR="results/<timestamp>/market-share"
+export OUTPUT_FILE="base-delegate-market-share-labeled-only-by-wallet-report.html"
+npm run report
+```
+
 ### Running on other chains
 
 By default, this runs against Base (`https://base.hypersync.xyz`).
