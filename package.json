@@ -9,6 +9,7 @@
     "market-share": "bun run market-share.ts",
     "aggregate:labels": "bun run aggregate-labels.ts",
     "filter:labeled": "bun run filter-labeled-delegates.ts",
+    "merge:market-share": "bun run merge-market-share.ts",
     "report": "bun run render-report.ts"
   },
   "dependencies": {

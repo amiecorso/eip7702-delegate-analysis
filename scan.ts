@@ -5,6 +5,7 @@ import {
   type LogField,
   type TransactionField,
 } from "@envio-dev/hypersync-client";
+import { appendFileSync } from "node:fs";
 import { recoverAuthorityFromAuthorization, type HypersyncAuthorization } from "./eip7702";
 
 function loadDotEnvIfPresent(envPath = ".env") {
@@ -89,6 +90,8 @@ const targetAddresses =
   .filter(Boolean);
 
 const SKIP_FETCH_TRANSACTIONS = process.env.SKIP_FETCH_TRANSACTIONS === "true";
+const LOG_RECOVERY_FAILURES = process.env.LOG_RECOVERY_FAILURES === "true";
+const RECOVERY_FAILURES_FILE = withPrefix(outputPrefix, "recovery-failures.jsonl");
 
 async function main() {
   await loadDotEnvIfPresent();
@@ -195,7 +198,30 @@ async function main() {
             try {
               const authority = recoverAuthorityFromAuthorization(auth as HypersyncAuthorization);
               fromAddresses.add(authority);
-            } catch {
+            } catch (e) {
+              if (LOG_RECOVERY_FAILURES) {
+                try {
+                  appendFileSync(
+                    RECOVERY_FAILURES_FILE,
+                    JSON.stringify(
+                      {
+                        txHash: txn.hash ?? null,
+                        txFrom: txn.from ?? null,
+                        chainId: (auth as any)?.chainId ?? null,
+                        nonce: (auth as any)?.nonce ?? null,
+                        yParity: (auth as any)?.yParity ?? null,
+                        r: (auth as any)?.r ?? null,
+                        s: (auth as any)?.s ?? null,
+                        address: (auth as any)?.address ?? null,
+                        error: e instanceof Error ? e.message : String(e),
+                      },
+                      (_, v) => (typeof v === "bigint" ? v.toString() : v),
+                    ) + "\n",
+                  );
+                } catch {
+                  // ignore logging failures
+                }
+              }
               // Fall back to tx.from if signature recovery fails for any reason.
               if (txn.from) fromAddresses.add(txn.from.toLowerCase());
             }

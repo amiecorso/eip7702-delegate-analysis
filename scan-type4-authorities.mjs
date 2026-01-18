@@ -67,6 +67,8 @@ function withPrefix(prefix, name) {
 const OUTPUT_FILE = withPrefix(outputPrefix, "type4-authority-addresses.txt");
 const SHARD_DIR = withPrefix(outputPrefix, "type4-authority-shards");
 const STATE_FILE = withPrefix(outputPrefix, "type4-scan-state.json");
+const LOG_RECOVERY_FAILURES = process.env.LOG_RECOVERY_FAILURES === "true";
+const RECOVERY_FAILURES_FILE = withPrefix(outputPrefix, "recovery-failures.jsonl");
 
 const DEBUG_SAMPLE = process.env.DEBUG_SAMPLE === "true";
 const DEBUG_SAMPLE_LIMIT = process.env.DEBUG_SAMPLE_LIMIT
@@ -90,6 +92,13 @@ function safeJsonPreview(obj, maxLen = 4000) {
     JSON.stringify(obj, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2) ??
     "";
   return s.length > maxLen ? s.slice(0, maxLen) + "\n...<truncated>..." : s;
+}
+
+function jsonLine(obj) {
+  return (
+    (JSON.stringify(obj, (_, v) => (typeof v === "bigint" ? v.toString() : v)) ??
+      "") + "\n"
+  );
 }
 
 function flushBuffers(dir, buffers) {
@@ -262,7 +271,27 @@ async function main() {
         try {
           authority = recoverAuthorityFromAuthorization(auth);
           recovered = true;
-        } catch {
+        } catch (e) {
+          if (LOG_RECOVERY_FAILURES) {
+            try {
+              appendFileSync(
+                RECOVERY_FAILURES_FILE,
+                jsonLine({
+                  txHash: txn.hash ?? null,
+                  txFrom: txn.from ?? null,
+                  chainId: auth?.chainId ?? null,
+                  nonce: auth?.nonce ?? null,
+                  yParity: auth?.yParity ?? null,
+                  r: auth?.r ?? null,
+                  s: auth?.s ?? null,
+                  address: auth?.address ?? null,
+                  error: e instanceof Error ? e.message : String(e),
+                }),
+              );
+            } catch {
+              // ignore logging failures
+            }
+          }
           authority = txFrom;
         }
         if (!authority) continue;

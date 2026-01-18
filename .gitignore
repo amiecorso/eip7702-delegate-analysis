@@ -5,6 +5,10 @@ results/
 *-type4-authority-addresses.txt
 *-type4-authority-shards/
 *-type4-scan-state.json
+*-recovery-failures.jsonl
+
+# Local diff artifacts between large runs
+diffs/
 
 # Market share outputs (regeneratable)
 *-delegate-market-share.json
