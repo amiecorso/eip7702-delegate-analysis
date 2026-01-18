@@ -1,19 +1,20 @@
-## EIP-7702 unsafe delegation scan + verification
+## EIP-7702 delegation scans + market share (Bun + Node)
 
-This directory contains several scripts (Bun + Node):
+This repo contains a handful of small scripts for scanning EIP-7702 activity via Hypersync and computing **current delegation market share** from state (`eth_getCode`).
 
-- `scan.ts`: uses Hypersync to find EOAs that submitted EIP-7702 transactions authorizing delegation to a target (unsafe CBSW implementation), then buckets them by whether they emitted `AddOwner`.
-- `verify-current-state.ts`: uses JSON-RPC to check whether those EOAs are **still** delegated to one of the targets *right now*, and fetches ETH + USDC balances.
-- `scan-type4-authorities.ts`: uses Hypersync to find **EIP-7702 type-4 transactions** and emits a deduped list of candidate “authority” EOAs for follow-on analysis.
-- `scan-type4-authorities.mjs`: Node.js runner for the same scan, using Hypersync `get()` pagination. Use this if Bun crashes with a `trace trap`.
-- `market-share.ts`: uses JSON-RPC to compute **current delegation market share** (by parsing `eth_getCode` delegation designator `0xef0100 + <delegate address>`) and ranks delegates, including an optional Coinbase delegate address.
+- `scan.ts`: streams type-4 transactions that include an authorization to one of the configured `TARGET_ADDRESSES`, recovers the **authority** EOA (authorization signer), and then buckets those EOAs by whether they emitted an `AddOwner` event.
+- `scan-type4-authorities.ts`: streams **all** type-4 transactions, recovers the **authority** for each authorization tuple, and writes a deduped list of authority EOAs for follow-on analysis.
+- `scan-type4-authorities.mjs`: Node.js runner for the same scan (useful if Bun crashes in your environment).
+- `market-share.ts`: computes **current delegate market share** by reading `eth_getCode(eoa, "latest")`, parsing the EIP-7702 designator (`0xef0100 + <delegate address>`), and aggregating counts by delegate address.
+- `render-report.ts`: renders a single HTML report from `<chain>-delegate-market-share.json` (pie + pareto + top delegates table).
+- `aggregate-labels.ts`: aggregates delegate market share into a “by wallet/provider” view using `labels/wintermute-custom-labels.json`.
 
 ### Setup
 
 - Install dependencies:
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 npm install --no-audit --no-fund
 ```
 
@@ -23,10 +24,16 @@ npm install --no-audit --no-fund
 export HYPERSYNC_API_KEY="..."
 ```
 
+Optionally copy `.env.example` to `.env` and fill values:
+
+```bash
+cp .env.example .env
+```
+
 ### Run
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 bun run scan.ts
 ```
 
@@ -96,7 +103,7 @@ Important caveats:
 This step streams **type-4 transactions** and writes a deduped candidate list:
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 export HYPERSYNC_API_KEY="..."
 export CHAIN=base
 export FROM_BLOCK=13514406
@@ -106,7 +113,7 @@ bun run scan-type4-authorities.ts
 If Bun crashes (e.g. `zsh: trace trap`), run the Node.js version:
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 export HYPERSYNC_API_KEY="..."
 export CHAIN=base
 export FROM_BLOCK=13514406
@@ -125,7 +132,7 @@ Outputs (Base defaults to unprefixed):
 To print a few `authorizationList[0]` objects (keys + JSON) without doing a full scan:
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 export HYPERSYNC_API_KEY="..."
 export CHAIN=base
 export FROM_BLOCK=13514406
@@ -140,7 +147,7 @@ If you want to scan forward until you find samples (instead of capping by `TO_BL
 This is more reliable than `unset TO_BLOCK` if you have a `.env` file or Bun dotenv auto-loading:
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 export HYPERSYNC_API_KEY="..."
 export CHAIN=base
 export FROM_BLOCK=13514406
@@ -166,7 +173,7 @@ Notes:
 ### 2) Compute current delegate market share (RPC)
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 export RPC_URL_BASE="..."
 export COINBASE_DELEGATE_ADDRESS="0x..."
 export CHAIN=base
@@ -205,12 +212,12 @@ This will write a checkpoint file:
 Once you have `<chain>-delegate-market-share.json`, you can render a single HTML report:
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 export INPUT_JSON="results/<timestamp>/market-share/base-delegate-market-share.json"
 export OUTPUT_DIR="results/<timestamp>/market-share"
 export OUTPUT_FILE="base-delegate-market-share-report.html"
 export TOP_N=15
-export BAR_N=30
+export TABLE_N=30
 npm run report
 ```
 
@@ -225,7 +232,7 @@ We store a best-effort delegate label mapping locally:
 To aggregate the raw delegate market share into a “by wallet” view using this mapping:
 
 ```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
+cd /path/to/eip7702-delegate-analysis
 export INPUT_JSON="results/<timestamp>/market-share/base-delegate-market-share.json"
 export LABELS_JSON="labels/wintermute-custom-labels.json"
 export OUTPUT_DIR="results/<timestamp>/market-share"
@@ -261,8 +268,8 @@ Outputs are prefixed by `OUTPUT_PREFIX` (defaults to `CHAIN` when set). For Base
 
 ### Outputs
 
-- `from-addresses.txt` (Base) or `<chain>-from-addresses.txt`: unique `from` addresses for matching type-4 transactions
-- `delegated-addresses.txt` (Base) or `<chain>-delegated-addresses.txt`: normalized copy of the full delegated set
+- `from-addresses.txt` (Base) or `<chain>-from-addresses.txt`: unique **authority EOAs** recovered from `authorizationList` (falls back to `tx.from` only if recovery fails)
+- `delegated-addresses.txt` (Base) or `<chain>-delegated-addresses.txt`: normalized copy of the full authority set (same addresses, stable filename for downstream tooling)
 - `delegated-with-addowner.txt` (Base) or `<chain>-delegated-with-addowner.txt`: subset that emitted AddOwner
 - `delegated-without-addowner.txt` (Base) or `<chain>-delegated-without-addowner.txt`: subset with no AddOwner observed
 - `addowner-check-results.json`: summary + per-address AddOwner matches (overwritten each run)
@@ -272,53 +279,9 @@ Outputs are prefixed by `OUTPUT_PREFIX` (defaults to `CHAIN` when set). For Base
 - `HYPERSYNC_API_KEY` (required)
 - `CHAIN` or `HYPERSYNC_URL` (optional; defaults to Base)
 - `FROM_BLOCK` (optional)
-- `TARGET_ADDRESSES` (optional; defaults to the two CBSW impl addresses)
+- `TARGET_ADDRESSES` (optional; defaults to two historical delegate target addresses)
 - `SKIP_FETCH_TRANSACTIONS=true` to reuse the existing `from-addresses.txt` file for the current prefix/chain instead of re-scanning transactions
 
-## Verify current delegation + balances (RPC)
-
-`verify-current-state.ts` takes the delegated address lists you already generated (per chain) and, for each address:
-
-- Reads current code via `eth_getCode` and checks for the EIP-7702 delegation designator `0xef0100 + <target address>`
-- Fetches the current native balance via `eth_getBalance`
-- Fetches USDC balance via `eth_call` to `balanceOf(address)` (if a USDC address is configured for that chain)
-
-### Required env
-
-You must provide an RPC URL per chain, for example:
-
-```bash
-export RPC_URL_BASE="..."
-export RPC_URL_ARBITRUM="..."
-export RPC_URL_OPTIMISM="..."
-export RPC_URL_ETH="..."
-```
-
-Optional overrides:
-
-- `TARGET_ADDRESSES`: comma-separated targets to treat as “unsafe” (defaults to the two CBSW impl addresses)
-- `USDC_ADDRESS_<CHAIN>`: override the USDC contract address per chain (e.g. `USDC_ADDRESS_ZORA=0x...`)
-- `CHAINS`: comma-separated list to limit which chains to process (otherwise auto-detect from output files)
-- `OUTPUT_DIR`: directory containing the delegated-addresses output files (defaults to `.`)
-- `CONCURRENCY`: number of concurrent RPC requests (default `8`)
-- `ONLY_WITHOUT_ADDOWNER=true`: only verify addresses from the `*-delegated-without-addowner.txt` lists
-
-### Run
-
-```bash
-cd /Users/amiecorso/smart-wallet/tools/eip7702-unsafe-delegations
-bun run verify-current-state.ts
-```
-
-### Outputs
-
-In the output directory (default current directory):
-
-- `<chain>-current-state.json`
-- `<chain>-current-state.csv`
-- `current-state-all-chains.json`
-
-Balance fields in JSON/CSV:
-- `ethBalanceEth` (human-readable ETH) and `ethBalanceWei` (raw)
-- `usdcBalance` (human-readable) and `usdcBalanceRaw` (raw)
+AddOwner note:
+- Under EIP-7702, the delegated EOA can emit logs itself during execution, so the AddOwner check intentionally filters logs where `log.address == <EOA>`.
 
